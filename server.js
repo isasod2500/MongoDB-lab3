@@ -52,13 +52,11 @@ const workSchema = new mongoose.Schema({
 
 const work = mongoose.model("workexperience", workSchema);
 
-console.log(work)
 app.get("/api", async (req, res) => {
     res.json({ message: "API NÅDD" });
 });
 
 app.get("/api/workexperience", async (req, res) => {
-    console.log("API NÅDD")
     try {
         let result = await work.find({});
         console.log(result)
@@ -102,7 +100,7 @@ app.post("/api/workexperience", async (req, res) => {
 
         }
     };
-/*
+
     if (!company || !jobtitle || !workinghours || !workfromwhere) {
 
         errors.message = "Fält saknar information";
@@ -113,7 +111,7 @@ app.post("/api/workexperience", async (req, res) => {
 
         return res.status(400).json(errors)
     }
-*/
+
     if (!errors.message) {
         try {
             let result = await work.create(req.body);
