@@ -13,6 +13,11 @@ app.use(express.json());
 
 mongoose.connect(process.env.DB_URL).then(() => {
     console.log(`Connected to MongoDB`)
+
+    app.listen(port, () => {
+    console.log(`Server running on ${port}`)
+    console.log(process.env.DB_URL)
+})
 }).catch((error) => {
     console.error(`Error connecting. ${error}`)
 })
@@ -47,19 +52,21 @@ const workSchema = new mongoose.Schema({
 
 const work = mongoose.model("workexperience", workSchema);
 
-
+console.log(work)
 app.get("/api", async (req, res) => {
     res.json({ message: "API NÅDD" });
 });
 
 app.get("/api/workexperience", async (req, res) => {
-
+    console.log("API NÅDD")
     try {
         let result = await work.find({});
-
+        console.log(result)
         return res.json(result)
     } catch (err) {
-        return res.status(500).json(err)
+        console.error(err)
+        return res.status(500).json({
+            message: err.message})
     }
 })
 
@@ -95,7 +102,7 @@ app.post("/api/workexperience", async (req, res) => {
 
         }
     };
-
+/*
     if (!company || !jobtitle || !workinghours || !workfromwhere) {
 
         errors.message = "Fält saknar information";
@@ -106,12 +113,12 @@ app.post("/api/workexperience", async (req, res) => {
 
         return res.status(400).json(errors)
     }
-
+*/
     if (!errors.message) {
         try {
             let result = await work.create(req.body);
 
-            return res.status(201)({ message: `Arbetserfarenhet tillagd`});
+            return res.status(201).json({ message: `Arbetserfarenhet tillagd`});
         } catch (err) {
             return res.status(400).json(err)
         }
@@ -160,6 +167,3 @@ app.delete("/api/workexperience/:id", async (req, res) => {
     
 })
 
-app.listen(port, () => {
-    console.log(`Server running on ${port}`)
-})
