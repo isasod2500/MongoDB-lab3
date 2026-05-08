@@ -52,7 +52,7 @@ const workSchema = new mongoose.Schema({
 
 const work = mongoose.model("workexperience", workSchema);
 
-app.get("/api", async (req, res) => {
+app.get("/", async (req, res) => {
     res.json({ message: "API NÅDD" });
 });
 
